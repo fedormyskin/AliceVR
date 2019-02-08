@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Alice WebVR</title>
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://aframe.io/releases/0.8.0/aframe.min.js"></script>
+    <script src="aframe-animation-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-look-at-component@0.5.1/dist/aframe-look-at-component.min.js"></script>
+    <script src="main.js"></script>
+    <script type="text/javascript">
+    AFRAME.registerComponent('image-grid', {
+      schema: {},
+      init: function () {
+        var fuse = document.querySelector('#fuse-cursor');
+        var fuseProgress = document.querySelector('#fuse-progress');
+        var camera = document.querySelector('#main-camera-wrapper');
+        var images = document.querySelectorAll('a-image');
+        var CAMERA_Z = 2.7;
+
+        fuse.addEventListener('fusing', function (e) {
+            fuseProgress.emit('fusing');
+        });
+
+        images.forEach(function(image) {
+          image.setAttribute('look-at', '[camera]');
+
+          image.addEventListener('click', function(e) {
+            var position = this.getAttribute('position')
+            camera.setAttribute('animation', {
+              to: {x: position.x, y: position.y, z: CAMERA_Z}
+            })
+            camera.emit('imageClicked')
+          })
+        })
+      }
+    });
+    </script>
+  </head>
+
+  <body>
+    <div id="splash">
+      <div class="loading"></div>
+    </div>
+
+    <a-scene image-grid fog="color: #ffffff; far: 0.00; type: linear;">
+      <a-assets>
+        <img id="main_background" src="assets/garden.jpg">
+        <img id="ch1-png" src="assets/book/ch1.png">
+        <img id="par1-png" src="assets/book/1.png">
+        <img id="par2-png" src="assets/book/2.png">
+        <img id="par3-png" src="assets/book/3.png">
+        <img id="par4-png" src="assets/book/4.png">
+        <img id="par5-png" src="assets/book/5.png">
+        <img id="par6-png" src="assets/book/6.png">
+        <img id="par7-png" src="assets/book/7.png">
+        <img id="par8-png" src="assets/book/8.png">
+        <img id="par9-png" src="assets/book/9.png">
+        <img id="par10-png" src="assets/book/10.png">
+        <img id="par11-png" src="assets/book/11.png">
+        <img id="par12-png" src="assets/book/12.png">
+        <img id="par13-png" src="assets/book/13.png">
+        <img id="par14-png" src="assets/book/14.png">
+        <img id="par15-png" src="assets/book/15.png">
+        <img id="par16-png" src="assets/book/16.png">
+        <img id="par17-png" src="assets/book/17.png">
+        <img id="par18-png" src="assets/book/18.png">
+        <img id="par19-png" src="assets/book/19.png">
+        <img id="par20-png" src="assets/book/20.png">
+        <img id="par21-png" src="assets/book/21.png">
+        <img id="par22-png" src="assets/book/22.png">
+        <img id="par23-png" src="assets/book/23.png">
+        <img id="par24-png" src="assets/book/24.png">
+      </a-assets>
+
+      <a-entity id="main-camera-wrapper" position="0.12 4.14 4.93" rotation="0 -0.35 0"
+                animation="property: position; easing: easeOutQuad; startEvents: imageClicked;">
+        <a-camera id="main-camera" user-height="0" visible="true" wasd-controls="enabled: false;"
+                  cursor="rayOrigin: mouse;" raycaster="objects: .clickable">
+          <a-cursor id="fuse-cursor" fuse="true" geometry="radiusInner: 0.005; radiusOuter: 0.01; thetaLength: 360; thetaStart: 90;"
+                    color="#232323" opacity="1" repeat="1 1" shader="flat" position="0 0 -1" objects=".clickable"
+                    rotation="0 0 0" scale="1 1 1" visible="true"></a-cursor>
+          <a-ring id="fuse-progress" radius-inner="0.005" radius-outer="0.01" theta-length="360"
+                  theta-start="90" color="#FFE066" opacity="0" repeat="1 1" shader="flat" position="0 0 -0.999"
+                  rotation="0 0 0" scale="1 1 1" visible="true" class="clickable" animation="delay: 0; dir: normal; dur: 1500; easing: linear; loop: 0; property: geometry.thetaLength; startEvents: fusing; to: 0; from: 360;"
+                  animation__1="delay: 0; dir: normal; dur: 1000; easing: linear; loop: 0; property: opacity; startEvents: fusing; to: 1; from: 0;"></a-ring>
+        </a-camera>
+      </a-entity>
+
+      <a-light id="point-light" light="castShadow: false; color: #ffffff; distance: 0; intensity: 1; type: point;"
+      position="0.00 5.20 -4.78" visible="true"></a-light>
+
+      <a-light id="ambient-light" light="color: #ffffff; intensity: 2.00; type: ambient;"
+      visible="true"></a-light>
+
+      <a-sphere id="bg-1" geometry="radius: 50;" material="color: #494949; metalness: 0; opacity: 1; repeat: 1 1; shader: standard; side: double; src: #main_background;"
+      position="0 1.6 -8" rotation="0.00 185 0.00" scale="3 3 3" shadow="receive: true; cast: true;"
+      visible="true"></a-sphere>
+
+      <a-text id="headline" position="0.00 4.75 -0.3" rotation="0 0 0" scale="1 1 1"
+      value="Alice's Adventures in Wonderland" font="assets/Oswald-Bold.fnt" font-image="assets/Oswald-Bold.png" align="center" opacity="1"
+      color="#000000" wrap-count="36" letter-spacing="16.20" line-height="64" width="4.00"
+      height="0" side="double" anchor="center" visible="true"></a-text>
+
+      <a-image id="chapter1" class="clickable" position="0.00 2.20 -3.50" rotation="0 0 0" scale="1 1 1"
+      width="4" height="2.5" color="#ffffff" opacity="1" shader="flat" side="double" src="#ch1-png"
+      repeat="1 1" visible="true">
+        <a-plane width="4.2" height="2.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph1" class="clickable" position="5.00 2.20 -3.50" rotation="0 0 0" scale="1 1 1"
+      width="4" height="6.3" color="#ffffff" opacity="1" shader="flat" side="double" src="#par1-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph2" class="clickable" position="10.00 2.20 -3.50" rotation="0 0 0" scale="1 1 1"
+      width="4" height="6.3" color="#ffffff" opacity="1" shader="flat" side="double" src="#par2-png"
+      visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph3" class="clickable" position="15.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par3-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph4" class="clickable" position="20.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par4-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph5" class="clickable" position="25.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par5-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph6" class="clickable" position="30.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par6-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph7" class="clickable" position="35.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par7-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph8" class="clickable" position="40.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par8-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph9" class="clickable" position="45.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par9-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph10" class="clickable" position="50.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par10-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph11" class="clickable" position="55.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par11-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph12" class="clickable" position="60.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par12-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph13" class="clickable" position="65.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par13-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph14" class="clickable" position="70.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par14-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph15" class="clickable" position="75.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par15-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph16" class="clickable" position="80.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par16-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph17" class="clickable" position="85.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par17-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph18" class="clickable" position="90.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par18-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph19" class="clickable" position="95.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par19-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph20" class="clickable" position="100.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par20-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph21" class="clickable" position="105.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par21-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph22" class="clickable" position="110.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par22-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph23" class="clickable" position="115.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par23-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+      <a-image id="paragraph24" class="clickable" position="120.00 2.20 -3.50" rotation="0.00 0 0.00"
+      scale="1 1 1" width="4" height="6.3" shader="flat" side="double"
+      src="#par24-png" visible="true">
+        <a-plane width="4.2" height="6.5" position="0 0 -0.02" material="opacity:0.6; flatShading: true; color:#ffffff"></a-plane>
+      </a-image>
+
+    </a-scene>
+  </body>
+
+</html>
